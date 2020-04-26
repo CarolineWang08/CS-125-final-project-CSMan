@@ -17,13 +17,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /*Button start = findViewById(R.id.start);
-        start.setVisibility(View.VISIBLE);
+        Button start = findViewById(R.id.start);
         start.setOnClickListener(v -> {
-            Intent launchGame = new Intent(this, MainActivity.class);
+            Intent launchGame = new Intent(this, LaunchActivity.class);
             startActivity(launchGame);
-            finish();
-        }); */
+        });
+
     }
 
     public void sendMesasge(View view) {
