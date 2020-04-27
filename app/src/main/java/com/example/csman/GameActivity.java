@@ -25,7 +25,8 @@ public class GameActivity extends AppCompatActivity {
 
         Button enterAnswer = findViewById(R.id.go);
         enterAnswer.setOnClickListener(v -> {
-            // helper function
+            // use helper function
+            //testMatch(); // get variables from library
             // if entered letter matches one of the letters in the answer, then the letter will become
             // visible in the answer text box
             // otherwise, one of geoff's head disappears
@@ -38,12 +39,26 @@ public class GameActivity extends AppCompatActivity {
     /** **/
     public String[] testMatch(String userInput, String answer) {
         int answerLength = answer.length();
-        String[] initial = new String[answerLength]; // initial string array that has no answer filled in yet
+        // this string array is made up of one-character strings
+        String[] initial = new String[answerLength]; // initial string array has no answer filled in yet
+        for (int index = 0; index < initial.length; index++) {
+            initial[index] = "_ ";
+        } // now the value at every index in the array is "_ "
         if (userInput.length() != 1) {
-        for (String setInitial : initial) {
-            setInitial = "_ ";
-
+            return initial;
         }
-
+        char input = userInput.charAt(0);
+        String[] newAnswer = initial;
+        for (int answerIndex = 0; answerIndex < answer.length(); answerIndex++) {
+            /* if the user's input matches one of the letters in the answer string, then it replaces
+            the blank underline */
+            if (input != answer.charAt(answerIndex)) {
+                return initial;
+            }
+            newAnswer[answerIndex] = userInput;
+            System.out.println(newAnswer);
+        }
+        System.out.println(newAnswer);
+        return newAnswer;
     }
 }
