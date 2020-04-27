@@ -4,9 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
+
 
 public class LaunchActivity extends AppCompatActivity {
 
@@ -15,10 +14,10 @@ public class LaunchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
 
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
-        TextView textView = findViewById(R.id.csman);
-        textView.setText(message);
-
+        Button startGame = findViewById(R.id.start);
+        startGame.setOnClickListener(v -> {
+            Intent Game = new Intent(this, GameActivity.class);
+            startActivity(Game);
+        });
     }
 }
