@@ -42,8 +42,7 @@ public class GameActivity extends AppCompatActivity {
         if (userInput.length() != 1) {
         for (String setInitial : initial) {
             setInitial = "_ ";
-            if (userInput.length() != 1) {
-                return setInitial;
+
         }
 
     }
