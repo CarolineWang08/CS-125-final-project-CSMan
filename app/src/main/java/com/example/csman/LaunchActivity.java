@@ -8,6 +8,7 @@ import android.widget.Button;
 
 
 public class LaunchActivity extends AppCompatActivity {
+    public static final String EXTRA_MESSAGE = "com.example.CSMan.MESSAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
