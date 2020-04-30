@@ -35,24 +35,32 @@ public class GameActivity extends AppCompatActivity {
             EditText input = findViewById(R.id.playerGuess);
             String userInput = input.getText().toString();
 
-            String[] wordBank = {"Pineapple", "Alice", "Caroline", "Jake", "Kitetsu"};
-            // temporary wordBank before our library is created
+            String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
+            "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
+            "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
+            "Easter", "Zoo", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
+            "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
+            "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
+            "Java", "Python"}; // word bank where words are randomly selected from
             TextView answer = findViewById(R.id.answer);
             // convert user's input into a string
-            //randomly get a string array from our software library.
-            String[] tmp = testMatch(userInput, wordBank[1]);
-            String output = "";
-            for (String str : tmp) {
-                output = output + str;
+            //randomly get a string array from our software library
+            String[] temp;
+            for (int wbIndex = 0; wbIndex < wordBank.length; wbIndex++) {
+                temp = testMatch(userInput, wordBank[wbIndex]);
+                String output = "";
+                for (String str : temp) {
+                    output = output + str;
+                }
+                answer.setText(output);
             }
-            //String output = tmp.toString();
-            answer.setText(output);
+            //String output = tmp.toString()
         });
     }
 
     /**
-     *
-     * @param userInput user's answer.
+     * Test to see if player's letter guess matches the letters in the word provided.
+     * @param userInput user's input.
      * @param answer default answer.
      * @return the result.
      */
@@ -74,14 +82,12 @@ public class GameActivity extends AppCompatActivity {
             if (input == answer.charAt(answerIndex)) {
                 newAnswer[answerIndex] = userInput;
                 return newAnswer;
-                //return initial;
-                //continue;
             }
-            //return initial;
-            //newAnswer[answerIndex] = userInput;
-            //System.out.println(newAnswer);
         }
-        //System.out.println(newAnswer);
         return newAnswer;
     }
+
+    /**
+     *
+     */
 }
