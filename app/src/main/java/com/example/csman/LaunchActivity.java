@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.TextView;
 
 
 public class LaunchActivity extends AppCompatActivity {
@@ -20,5 +21,10 @@ public class LaunchActivity extends AppCompatActivity {
             Intent Game = new Intent(this, GameActivity.class);
             startActivity(Game);
         });
+
+        TextView welcomeMessage = findViewById(R.id.welcome);
+        Intent input = getIntent();
+        String nameInput = input.getStringExtra("name");
+        welcomeMessage.setText("Welcome to CSMAN2020," + " " + nameInput);
     }
 }

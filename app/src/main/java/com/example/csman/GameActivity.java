@@ -38,10 +38,10 @@ public class GameActivity extends AppCompatActivity {
             String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
             "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
             "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
-            "Easter", "Zoo", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
+            "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
             "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
             "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
-            "Java", "Python"}; // word bank where words are randomly selected from
+            "Jacket", "Potato"}; // word bank
             TextView answer = findViewById(R.id.answer);
             // convert user's input into a string
             //randomly get a string array from our software library

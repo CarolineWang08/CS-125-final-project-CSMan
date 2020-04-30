@@ -30,36 +30,51 @@
         android:id="@+id/playerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="99dp"
+        android:layout_marginLeft="99dp"
+        android:layout_marginTop="263dp"
+        android:layout_marginEnd="155dp"
+        android:layout_marginRight="155dp"
+        android:layout_marginBottom="15dp"
         android:text="Enter Your Name:"
         android:textSize="20sp"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="397dp" />
+        app:layout_constraintBottom_toTopOf="@+id/nameInput"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title" />
 
     <EditText
-        android:id="@+id/editText2"
+        android:id="@+id/nameInput"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="99dp"
+        android:layout_marginLeft="99dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="99dp"
+        android:layout_marginRight="99dp"
+        android:layout_marginBottom="64dp"
         android:ems="10"
         android:inputType="textPersonName"
-        tools:layout_editor_absoluteX="99dp"
-        tools:layout_editor_absoluteY="439dp" />
+        app:layout_constraintBottom_toTopOf="@+id/setGame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playerName" />
 
     <Button
         android:id="@+id/setGame"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="158dp"
-        android:layout_marginLeft="158dp"
-        android:layout_marginTop="79dp"
-        android:layout_marginEnd="165dp"
-        android:layout_marginRight="165dp"
-        android:layout_marginBottom="280dp"
+        android:layout_marginStart="161dp"
+        android:layout_marginLeft="161dp"
+        android:layout_marginTop="64dp"
+        android:layout_marginEnd="162dp"
+        android:layout_marginRight="162dp"
+        android:layout_marginBottom="129dp"
         android:text="Enter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
-        app:layout_constraintVertical_bias="0.143" />
+        app:layout_constraintTop_toBottomOf="@+id/nameInput" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

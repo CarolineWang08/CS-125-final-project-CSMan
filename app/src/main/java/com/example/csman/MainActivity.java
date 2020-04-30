@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,12 +16,14 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        EditText name = findViewById(R.id.nameInput);
+        String playerName = name.getText().toString();
         Button start = findViewById(R.id.setGame);
         start.setOnClickListener(v -> {
             Intent launchGame = new Intent(this, LaunchActivity.class);
+            launchGame.putExtra("name", playerName);
             startActivity(launchGame);
         });
-
     }
 
 }
