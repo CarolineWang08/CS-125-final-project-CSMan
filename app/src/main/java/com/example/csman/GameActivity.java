@@ -21,97 +21,80 @@ public class GameActivity extends AppCompatActivity {
         Button exit = findViewById(R.id.exitGame);
         exit.setVisibility(View.VISIBLE);
         exit.setOnClickListener(v -> {
-            Intent backToGame = new Intent(this, LaunchActivity.class);
+            Intent backToGame = new Intent(this, MainActivity.class);
             startActivity(backToGame);
         });
 
-        Button enterAnswer = findViewById(R.id.go);
-        enterAnswer.setOnClickListener(v -> {
+        //Button enterAnswer = findViewById(R.id.go);
+        //enterAnswer.setVisibility(View.VISIBLE);
+        //enterAnswer.setOnClickListener(v -> {
             // use helper function
             //testMatch(); // get variables from library
             // if entered letter matches one of the letters in the answer, then the letter will become
             // visible in the answer text box
             // otherwise, one of geoff's head disappear
-        });
 
-        EditText input = findViewById(R.id.playerGuess);
-        String userInput = input.getText().toString();
 
-        String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
-                "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
-                "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
-                "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
-                "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
-                "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
-                "Jacket", "Potato"}; // temporary word bank (will use api in the future)
+        String[] wordBank = {"Alice", "Jake", "Caroline"};
+
+        /**String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
+             "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
+             "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
+             "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
+             "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
+             "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
+             "Jacket", "Potato"};
+         */
         TextView answer = findViewById(R.id.answer);
 
         // randomly get a word from wordBank
         Random random = new Random();
         int randomIndex = random.nextInt(wordBank.length);
         String word = wordBank[randomIndex];
+        char[] wordChar = word.toCharArray(); // java -> j,a,v,a
 
-        // change word string to one-character string array
-        int wordLength = word.length();
-        String[] initial = new String[wordLength];
-        for (int initialIndex = 0; initialIndex < initial.length; initialIndex++) {
-            // now the value at every index in the array is "_ "
-            initial[initialIndex] = "_ ";
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append(initial[initialIndex]);
-            String newInitial = stringBuilder.toString(); // error not here
-            answer.setText(newInitial);
+        int amountOfGuesses = wordChar.length; //total tries to guess a word.
+        char[] playerGuess = new char[amountOfGuesses];
+
+        // "_ _ _ _ _ _ _ _"
+        for (int i = 0; i < playerGuess.length; i++) {
+                playerGuess[i] = '_';
         }
+        answer.setText(new String(playerGuess));
 
-        // Good so far, initial.toString needs to be debugged
 
-        TextView hint = findViewById(R.id.hint);
+        Button enterAnswer = findViewById(R.id.go);
+        enterAnswer.setVisibility(View.VISIBLE);
+        enterAnswer.setOnClickListener(v -> {
+            EditText input = findViewById(R.id.playerGuess);
+            String userInput = input.getText().toString();
+            //TextView newAnswer = findViewById(R.id.answer);
+            char[] chars = userOutput(userInput, wordChar);
+            answer.setText(new String(chars));
+
+        });
+    }
+    public char[] userOutput(String userInput, char[] guess){
+
+        char[] emptyChar = new char[guess.length];
         if (userInput.length() != 1) {
-            hint.setText("Oops!");
+            return emptyChar;
         }
-
-        // Problem!
-        String finish = "";
-        if (userInput.length() == 1) {
-            char uInput = userInput.charAt(0);  // This code contains error
-
-            String[] output = initial;
-
-            for (int answerIndex = 0; answerIndex < wordLength; answerIndex++) {
-            //if the user's input matches one of the letters in the answer string, then it replace
-            // the blank underline
-                if (uInput == word.charAt(answerIndex)) {
-                output[answerIndex] = userInput;
-                }
-            }
-            for (String str: output) {
-                finish = finish + str;
+        char input = userInput.charAt(0);
+        for (int i = 0; i < guess.length; i++) {
+            if (input == guess[i]) {
+                emptyChar[i] = input;
             }
         }
-        answer.setText(finish);
-
-
-            /* // convert user's input into a string
-            //randomly get a string array from our software library
-            String[] temp;
-            for (int wbIndex = 0; wbIndex < wordBank.length; wbIndex++) {
-                temp = testMatch(userInput, wordBank[wbIndex]);
-                String output = "";
-                for (String str : temp) {
-                    output = output + str;
-                }
-                answer.setText(output);
-            }
-           //String output = tmp.toString();
-             */
+        return emptyChar;
     }
 
-    /*/**
-     * Test to see if player's letter guess matches the letters in the word provided.
-     * @param userInput user's input.
-     * @param answer default answer.
-     * @return the result.
-     */
+    ///**
+     //* Test to see if player's letter guess matches the letters in the word provided.
+     //* @param userInput user's input.
+     //* @param answer default answer.
+     //* @return the result.
+     //*/
     /*public String[] testMatch(String userInput, String answer) {
         int answerLength = answer.length();
         // this string array is made up of one-character strings
