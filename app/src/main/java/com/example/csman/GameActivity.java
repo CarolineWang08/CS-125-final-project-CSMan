@@ -1,13 +1,14 @@
 package com.example.csman;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.CSMan.MESSAGE";
@@ -42,9 +43,55 @@ public class GameActivity extends AppCompatActivity {
                 "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
                 "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
                 "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
-                "Jacket", "Potato"}; // word bank
+                "Jacket", "Potato"}; // temporary word bank (will use api in the future)
         TextView answer = findViewById(R.id.answer);
-            /*// convert user's input into a string
+
+        // randomly get a word from wordBank
+        Random random = new Random();
+        int randomIndex = random.nextInt(wordBank.length);
+        String word = wordBank[randomIndex];
+
+        // change word string to one-character string array
+        int wordLength = word.length();
+        String[] initial = new String[wordLength];
+        for (int initialIndex = 0; initialIndex < initial.length; initialIndex++) {
+            // now the value at every index in the array is "_ "
+            initial[initialIndex] = "_ ";
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(initial[initialIndex]);
+            String newInitial = stringBuilder.toString(); // error not here
+            answer.setText(newInitial);
+        }
+
+        // Good so far, initial.toString needs to be debugged
+
+        TextView hint = findViewById(R.id.hint);
+        if (userInput.length() != 1) {
+            hint.setText("Oops!");
+        }
+
+        // Problem!
+        String finish = "";
+        if (userInput.length() == 1) {
+            char uInput = userInput.charAt(0);  // This code contains error
+
+            String[] output = initial;
+
+            for (int answerIndex = 0; answerIndex < wordLength; answerIndex++) {
+            //if the user's input matches one of the letters in the answer string, then it replace
+            // the blank underline
+                if (uInput == word.charAt(answerIndex)) {
+                output[answerIndex] = userInput;
+                }
+            }
+            for (String str: output) {
+                finish = finish + str;
+            }
+        }
+        answer.setText(finish);
+
+
+            /* // convert user's input into a string
             //randomly get a string array from our software library
             String[] temp;
             for (int wbIndex = 0; wbIndex < wordBank.length; wbIndex++) {
@@ -55,7 +102,7 @@ public class GameActivity extends AppCompatActivity {
                 }
                 answer.setText(output);
             }
-            //String output = tmp.toString();
+           //String output = tmp.toString();
              */
     }
 

@@ -30,16 +30,17 @@
         android:id="@+id/playerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="99dp"
-        android:layout_marginLeft="99dp"
-        android:layout_marginTop="263dp"
-        android:layout_marginEnd="155dp"
-        android:layout_marginRight="155dp"
-        android:layout_marginBottom="15dp"
+        android:layout_marginStart="124dp"
+        android:layout_marginLeft="124dp"
+        android:layout_marginTop="273dp"
+        android:layout_marginEnd="130dp"
+        android:layout_marginRight="130dp"
+        android:layout_marginBottom="48dp"
         android:text="Enter Your Name:"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/nameInput"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/title" />
 
@@ -49,15 +50,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="99dp"
         android:layout_marginLeft="99dp"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="99dp"
         android:layout_marginRight="99dp"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="21dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/setGame"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playerName" />
 
@@ -74,7 +74,9 @@
         android:text="Enter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameInput" />
+        app:layout_constraintTop_toBottomOf="@+id/nameInput"
+        app:layout_constraintVertical_bias="1.0" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
