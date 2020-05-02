@@ -30,20 +30,21 @@ public class GameActivity extends AppCompatActivity {
             //testMatch(); // get variables from library
             // if entered letter matches one of the letters in the answer, then the letter will become
             // visible in the answer text box
-            // otherwise, one of geoff's head disappears
+            // otherwise, one of geoff's head disappear
+        });
 
-            EditText input = findViewById(R.id.playerGuess);
-            String userInput = input.getText().toString();
+        EditText input = findViewById(R.id.playerGuess);
+        String userInput = input.getText().toString();
 
-            String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
-            "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
-            "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
-            "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
-            "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
-            "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
-            "Jacket", "Potato"}; // word bank
-            TextView answer = findViewById(R.id.answer);
-            // convert user's input into a string
+        String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
+                "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
+                "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
+                "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
+                "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
+                "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
+                "Jacket", "Potato"}; // word bank
+        TextView answer = findViewById(R.id.answer);
+            /*// convert user's input into a string
             //randomly get a string array from our software library
             String[] temp;
             for (int wbIndex = 0; wbIndex < wordBank.length; wbIndex++) {
@@ -54,17 +55,17 @@ public class GameActivity extends AppCompatActivity {
                 }
                 answer.setText(output);
             }
-            //String output = tmp.toString()
-        });
+            //String output = tmp.toString();
+             */
     }
 
-    /**
+    /*/**
      * Test to see if player's letter guess matches the letters in the word provided.
      * @param userInput user's input.
      * @param answer default answer.
      * @return the result.
      */
-    public String[] testMatch(String userInput, String answer) {
+    /*public String[] testMatch(String userInput, String answer) {
         int answerLength = answer.length();
         // this string array is made up of one-character strings
         String[] initial = new String[answerLength]; // initial string array has no answer filled in yet
@@ -79,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
         for (int answerIndex = 0; answerIndex < answer.length(); answerIndex++) {
             /* if the user's input matches one of the letters in the answer string, then it replaces
             the blank underline */
-            if (input == answer.charAt(answerIndex)) {
+            /*if (input == answer.charAt(answerIndex)) {
                 newAnswer[answerIndex] = userInput;
                 return newAnswer;
             }
@@ -87,7 +88,5 @@ public class GameActivity extends AppCompatActivity {
         return newAnswer;
     }
 
-    /**
-     *
-     */
+             */
 }
