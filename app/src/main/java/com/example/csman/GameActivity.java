@@ -46,9 +46,10 @@ public class GameActivity extends AppCompatActivity {
              "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
              "Jacket", "Potato"};
          */
+
         TextView answerLabel = findViewById(R.id.answer);
         TextView hintLabel = findViewById(R.id.hint);
-        hintLabel.setText("");
+        hintLabel.setText("Enter a letter.");
 
         // randomly get a word from wordBank
         Random random = new Random();
@@ -58,15 +59,12 @@ public class GameActivity extends AppCompatActivity {
         int answerWordLength = answerWord.length();
 
         String[] initial = new String[answerWordLength];
-        // String newInitial = StringBuffer(initial);
-
-        String answerStr = "";
-
-        for (int i = 0; i < answerWordLength; i++) {
-            answerStr += "_ ";
+        for (int initialIndex = 0; initialIndex < answerWordLength; initialIndex++) {
+            initial[initialIndex] = "_ ";
         }
+        String answerString = stringBuffer(initial);
 
-        answerLabel.setText(answerStr);
+        answerLabel.setText(answerString);
 
         EditText textBoxUserInput = findViewById(R.id.playerGuess);
 
@@ -85,7 +83,9 @@ public class GameActivity extends AppCompatActivity {
                 if (userInputStr.equals(eachAnswerString)) {
                     String[] answerLabelStrArray = answerLabel.getText().toString().split("");
                     answerLabelStrArray[i * 2] = userInputStr;
-                    answerLabel.setText(stringBuffer(answerLabelStrArray));  // there is a bug
+                    answerLabel.setText(stringBuffer(answerLabelStrArray));
+                    hintLabel.setText("Good job! Try another letter!");
+                    return;
                 } else {
                     hintLabel.setText("No matching character was found! Try again!");
                 }
@@ -123,29 +123,6 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
-
-
-    /**
-     *
-     * @param userInput
-     * @param guess
-     * @return
-     */
-    public char[] userOutput(String userInput, char[] guess){
-
-        char[] emptyChar = new char[guess.length];
-        if (userInput.length() != 1) {
-            return emptyChar;
-        }
-        char input = userInput.charAt(0);
-        for (int i = 0; i < guess.length; i++) {
-            if (input == guess[i]) {
-                emptyChar[i] = input;
-            }
-        }
-        return emptyChar;
-    }
-
     /**
      * Helps transform a string array to a string.
      * @param stringArray input string array.
@@ -159,13 +136,26 @@ public class GameActivity extends AppCompatActivity {
         return stringBuilder.toString();
     }
 
+    /**
+     * Changes string in the wordBnak to all caps.
+     * @param array word bank
+     * @return new word bank with all caps
+     */
+    public String[] changeToUpperCase(String[] array) {
+        String[] newArray = new String[array.length];
+        for (int i = 0; i < array.length; i++) {
+            newArray[i] = array[i].toUpperCase();
+        }
+        return newArray;
+    }
+
     ///**
      //* Test to see if player's letter guess matches the letters in the word provided.
      //* @param userInput user's input.
      //* @param answer default answer.
      //* @return the result.
      //*/
-    public String[] testMatch(String userInput, String answer) {
+    /*public String[] testMatch(String userInput, String answer) {
         int answerLength = answer.length();
         // this string array is made up of one-character strings
         String[] initial = new String[answerLength]; // initial string array has no answer filled in yet
@@ -186,7 +176,5 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         return newAnswer;
-    }
-
-
+    } */
 }
