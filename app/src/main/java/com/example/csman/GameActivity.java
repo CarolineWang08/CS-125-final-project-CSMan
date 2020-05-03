@@ -76,22 +76,22 @@ public class GameActivity extends AppCompatActivity {
         String answerString = stringBuffer(initial);
         answerLabel.setText(answerString);
 
-        textBoxUserInput = findViewById(R.id.playerGuess);
+        textBoxUserInput = findViewById(R.id.playerGuess); // user input from textbox
 
         goButton = findViewById(R.id.go);
         goButton.setOnClickListener(v -> {
-            String userInputStr = textBoxUserInput.getText().toString();
+            String userInputStr = textBoxUserInput.getText().toString(); // user input converted to string
 
             if (userInputStr.length() != 1) {
                 hintLabel.setText("Only one-character input is allowed!");
                 return;
             } // if the user's input is more than one character, then change hint message
 
-            for (int wordIndex = 0; wordIndex < answerWordLength; wordIndex++) {
-                char eachAnswerCharacter = answerWord.charAt(wordIndex);
+            for (int answerWordIndex = 0; answerWordIndex < answerWordLength; answerWordIndex++) {
+                char eachAnswerCharacter = answerWord.charAt(answerWordIndex);
                 char userInputChar = userInputStr.charAt(0);
                 if (userInputChar == eachAnswerCharacter) {
-                    initial[wordIndex] = userInputStr;
+                    initial[answerWordIndex] = userInputStr;
                     answerLabel.setText(stringBuffer(initial));
                     hintLabel.setText("Good job! Try another letter!");
                     return;
@@ -105,10 +105,10 @@ public class GameActivity extends AppCompatActivity {
 
     }
     public void AddData() {
-        goButton.setOnClickListener(
-              new View.OnClickListener() {
-                  @Override
-                  public void onClick(View v) {
+        // goButton.setOnClickListener(
+              // new View.OnClickListener() {
+                  //@Override
+                  //public void onClick(View v) {
                       boolean isInserted = gameDb.insertData(textBoxUserInput.getText().toString());
                       if (isInserted == true) {
                           Toast.makeText(GameActivity.this, "Data inserted", Toast.LENGTH_LONG).show();
@@ -116,10 +116,10 @@ public class GameActivity extends AppCompatActivity {
                           Toast.makeText(GameActivity.this, "Data not inserted", Toast.LENGTH_LONG).show();
                       }
 
-                  }
+                  //}
 
-              }
-        );
+              //}
+        //);
     }
 
     public void viewAll() {

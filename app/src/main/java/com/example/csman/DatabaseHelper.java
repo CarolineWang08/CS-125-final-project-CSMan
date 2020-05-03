@@ -16,11 +16,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
-<<<<<<< HEAD
         SQLiteDatabase db = this.getWritableDatabase();
-=======
         //SQLiteDatabase db = this.getWritableDatabase()
->>>>>>> 7a7d435769a3b615c564ae65f40f27af0773a11f
     }
 
     @Override
