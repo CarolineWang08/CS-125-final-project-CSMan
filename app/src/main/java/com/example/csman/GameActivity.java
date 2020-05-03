@@ -76,15 +76,13 @@ public class GameActivity extends AppCompatActivity {
             if (userInputStr.length() != 1) {
                 hintLabel.setText("Only one-character input is allowed!");
                 return;
-            }
+            } // if the user's input is more than one character, then change hint message
 
             for (int wordIndex = 0; wordIndex < answerWordLength; wordIndex++) {
                 char eachAnswerCharacter = answerWord.charAt(wordIndex);
                 char userInputChar = userInputStr.charAt(0);
                 if (userInputChar == eachAnswerCharacter) {
                     initial[wordIndex] = userInputStr;
-                    //String[] answerLabelStrArray = answerString.split("");
-                    //answerLabelStrArray[i * 2] = userInputStr;
                     answerLabel.setText(stringBuffer(initial));
                     hintLabel.setText("Good job! Try another letter!");
                     return;
