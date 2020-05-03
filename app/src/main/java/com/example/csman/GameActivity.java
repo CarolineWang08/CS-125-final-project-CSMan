@@ -65,7 +65,6 @@ public class GameActivity extends AppCompatActivity {
             initial[initialIndex] = "_ ";
         }
         String answerString = stringBuffer(initial);
-
         answerLabel.setText(answerString);
 
         EditText textBoxUserInput = findViewById(R.id.playerGuess);
@@ -79,20 +78,20 @@ public class GameActivity extends AppCompatActivity {
                 return;
             }
 
-            for (int i = 0; i < answerWordLength; i++) {
-                char eachAnswerCharacter = answerWord.charAt(i);
-                String eachAnswerString = Character.toString(eachAnswerCharacter);
-                if (userInputStr.equals(eachAnswerString)) {
-                    String[] answerLabelStrArray = answerLabel.getText().toString().split("");
-                    answerLabelStrArray[i * 2] = userInputStr;
-                    answerLabel.setText(stringBuffer(answerLabelStrArray));
+            for (int wordIndex = 0; wordIndex < answerWordLength; wordIndex++) {
+                char eachAnswerCharacter = answerWord.charAt(wordIndex);
+                char userInputChar = userInputStr.charAt(0);
+                if (userInputChar == eachAnswerCharacter) {
+                    initial[wordIndex] = userInputStr;
+                    //String[] answerLabelStrArray = answerString.split("");
+                    //answerLabelStrArray[i * 2] = userInputStr;
+                    answerLabel.setText(stringBuffer(initial));
                     hintLabel.setText("Good job! Try another letter!");
                     return;
                 } else {
                     hintLabel.setText("No matching character was found! Try again!");
                 }
             }
-
         });
 
         // answerLabel.setText(userInputStr);
