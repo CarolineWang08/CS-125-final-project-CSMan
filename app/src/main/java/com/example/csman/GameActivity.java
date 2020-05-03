@@ -35,9 +35,9 @@ public class GameActivity extends AppCompatActivity {
             // otherwise, one of geoff's head disappear
 
 
-        String[] wordBank = {"Alice", "Jake", "Caroline"};
+        String[] wordBank = {"Jake", "Caroline"};
 
-        /**String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
+        /*String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
              "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
              "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
              "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
@@ -51,6 +51,12 @@ public class GameActivity extends AppCompatActivity {
         Random random = new Random();
         int randomIndex = random.nextInt(wordBank.length);
         String word = wordBank[randomIndex];
+
+        int wordLength = word.length();
+        String[] initial = new String[wordLength];
+        String newInitial = StringBuffer(initial);
+
+
         char[] wordChar = word.toCharArray(); // java -> j,a,v,a
 
         int amountOfGuesses = wordChar.length; //total tries to guess a word.
@@ -61,7 +67,6 @@ public class GameActivity extends AppCompatActivity {
                 playerGuess[i] = '_';
         }
         answer.setText(new String(playerGuess));
-
 
         Button enterAnswer = findViewById(R.id.go);
         enterAnswer.setVisibility(View.VISIBLE);
@@ -74,6 +79,13 @@ public class GameActivity extends AppCompatActivity {
 
         });
     }
+
+    /**
+     *
+     * @param userInput
+     * @param guess
+     * @return
+     */
     public char[] userOutput(String userInput, char[] guess){
 
         char[] emptyChar = new char[guess.length];
@@ -87,6 +99,19 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         return emptyChar;
+    }
+
+    /**
+     *
+     * @param stringArray
+     * @return
+     */
+    public String StringBuffer(String[] stringArray) {
+        for (int i = 0; i < stringArray.length; i++) {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.append(stringArray[i]);
+            return stringBuilder.toString();
+        }
     }
 
     ///**
