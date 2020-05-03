@@ -12,12 +12,14 @@ import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.CSMan.MESSAGE";
+    DatabaseHelper gameDb;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+        gameDb = new DatabaseHelper(this);
 
         Button exitButton = findViewById(R.id.exitGame);
         exitButton.setVisibility(View.VISIBLE);
