@@ -1,5 +1,6 @@
 package com.example.csman;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -14,7 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, 1);
-        SQLiteDatabase db = this.getWritableDatabase()
+        //SQLiteDatabase db = this.getWritableDatabase()
     }
 
     @Override
@@ -28,5 +29,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
 
+    }
+
+    public boolean insertData(String wrongLetter) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_1, wrongLetter);
+        long result = db.insert(TABLE_NAME, null, contentValues);
+        if (result == -1) {
+            return false;
+        }
+        return true;
     }
 }
