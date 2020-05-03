@@ -7,12 +7,19 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Random;
 
 public class GameActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.CSMan.MESSAGE";
     DatabaseHelper gameDb;
+    Button exitButton;
+    TextView answerLabel;
+    TextView hintLabel;
+    EditText textBoxUserInput;
+    Button goButton;
+    Button viewAll;
 
 
     @Override
@@ -21,12 +28,14 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
         gameDb = new DatabaseHelper(this);
 
-        Button exitButton = findViewById(R.id.exitGame);
+        exitButton = findViewById(R.id.exitGame);
         exitButton.setVisibility(View.VISIBLE);
         exitButton.setOnClickListener(v -> {
             Intent backToGame = new Intent(this, MainActivity.class);
             startActivity(backToGame);
         });
+
+        viewAll = findViewById(R.id.view_all);
 
         //Button enterAnswer = findViewById(R.id.go);
         //enterAnswer.setVisibility(View.VISIBLE);
@@ -49,8 +58,8 @@ public class GameActivity extends AppCompatActivity {
              "Jacket", "Potato"};
          */
 
-        TextView answerLabel = findViewById(R.id.answer);
-        TextView hintLabel = findViewById(R.id.hint);
+        answerLabel = findViewById(R.id.answer);
+        hintLabel = findViewById(R.id.hint);
         hintLabel.setText("Enter a letter.");
 
         // randomly get a word from wordBank
@@ -67,9 +76,9 @@ public class GameActivity extends AppCompatActivity {
         String answerString = stringBuffer(initial);
         answerLabel.setText(answerString);
 
-        EditText textBoxUserInput = findViewById(R.id.playerGuess);
+        textBoxUserInput = findViewById(R.id.playerGuess);
 
-        Button goButton = findViewById(R.id.go);
+        goButton = findViewById(R.id.go);
         goButton.setOnClickListener(v -> {
             String userInputStr = textBoxUserInput.getText().toString();
 
@@ -88,38 +97,40 @@ public class GameActivity extends AppCompatActivity {
                     return;
                 } else {
                     hintLabel.setText("No matching character was found! Try again!");
+                    AddData();
                 }
             }
         });
 
-        // answerLabel.setText(userInputStr);
 
-        // answer.setText(newInitial);
+    }
+    public void AddData() {
+        goButton.setOnClickListener(
+              new View.OnClickListener() {
+                  @Override
+                  public void onClick(View v) {
+                      boolean isInserted = gameDb.insertData(textBoxUserInput.getText().toString());
+                      if (isInserted == true) {
+                          Toast.makeText(GameActivity.this, "Data inserted", Toast.LENGTH_LONG).show();
+                      } else {
+                          Toast.makeText(GameActivity.this, "Data not inserted", Toast.LENGTH_LONG).show();
+                      }
 
+                  }
 
-        /*char[] wordChar = word.toCharArray(); // java -> j,a,v,a
+              }
+        );
+    }
 
-        int amountOfGuesses = wordChar.length; //total tries to guess a word.
-        char[] playerGuess = new char[amountOfGuesses];
+    public void viewAll() {
+        viewAll.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
-        // "_ _ _ _ _ _ _ _"
-        for (int i = 0; i < playerGuess.length; i++) {
-                playerGuess[i] = '_';
-        }
-        answer.setText(new String(playerGuess)); */
-
-
-       /* Button enterAnswer = findViewById(R.id.go);
-        enterAnswer.setVisibility(View.VISIBLE);
-        enterAnswer.setOnClickListener(v -> {
-            EditText input = findViewById(R.id.playerGuess);
-            String userInput = input.getText().toString();
-            //TextView newAnswer = findViewById(R.id.answer);
-            char[] chars = userOutput(userInput, wordChar);
-            answer.setText(new String(chars));
-
-        }); */
-
+                    }
+                }
+        );
     }
 
     /**
