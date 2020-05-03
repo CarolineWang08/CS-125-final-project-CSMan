@@ -23,6 +23,7 @@ public class GameActivity extends AppCompatActivity {
     EditText textBoxUserInput;
     Button goButton;
     Button viewAll;
+    Button clearDatabase;
     ImageView chance1;
     ImageView chance2;
     ImageView chance3;
@@ -43,6 +44,7 @@ public class GameActivity extends AppCompatActivity {
         });
 
         viewAll = findViewById(R.id.viewPastAnswers);
+        clearDatabase = findViewById(R.id.clearDatabase);
 
         chance1 = findViewById(R.id.chance1);
         chance2 = findViewById(R.id.chance2);
@@ -121,14 +123,15 @@ public class GameActivity extends AppCompatActivity {
                 } else {
                     hintLabel.setText("No matching character was found! Try again!");
                     AddData();
-                    /*for (ImageView oneChance : chances) {
+                    for (ImageView oneChance : chances) {
                         oneChance.setVisibility(View.GONE);
-                    } // run through the imageView array and delete chance images one by one */
+                    } // run through the imageView array and delete chance images one by one
                 }
             }
         });
 
         viewAll();
+        clearData();
     }
     public void AddData() {
         // goButton.setOnClickListener(
@@ -171,6 +174,11 @@ public class GameActivity extends AppCompatActivity {
         );
     }
 
+    /**
+     *
+     * @param title
+     * @param Message
+     */
     public void showMessage(String title, String Message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
@@ -203,6 +211,20 @@ public class GameActivity extends AppCompatActivity {
             newArray[i] = array[i].toUpperCase();
         }
         return newArray;
+    }
+
+    /**
+     *
+     */
+    public void clearData() {
+        clearDatabase.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        gameDb.clearDatabase();
+                    }
+                }
+        );
     }
 
     ///**
