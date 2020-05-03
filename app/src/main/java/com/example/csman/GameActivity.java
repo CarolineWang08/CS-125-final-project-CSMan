@@ -13,14 +13,15 @@ import java.util.Random;
 public class GameActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.CSMan.MESSAGE";
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        Button exit = findViewById(R.id.exitGame);
-        exit.setVisibility(View.VISIBLE);
-        exit.setOnClickListener(v -> {
+        Button exitButton = findViewById(R.id.exitGame);
+        exitButton.setVisibility(View.VISIBLE);
+        exitButton.setOnClickListener(v -> {
             Intent backToGame = new Intent(this, MainActivity.class);
             startActivity(backToGame);
         });
@@ -35,7 +36,7 @@ public class GameActivity extends AppCompatActivity {
             // otherwise, one of geoff's head disappear
 
 
-        String[] wordBank = {"Jake", "Caroline"};
+        String[] wordBank = {"JAKE", "CAROLINE", "KITETSU", "ALICE"};
 
         /*String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
              "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
@@ -45,19 +46,59 @@ public class GameActivity extends AppCompatActivity {
              "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
              "Jacket", "Potato"};
          */
-        TextView answer = findViewById(R.id.answer);
+        TextView answerLabel = findViewById(R.id.answer);
+        TextView hintLabel = findViewById(R.id.hint);
+        hintLabel.setText("");
 
         // randomly get a word from wordBank
         Random random = new Random();
         int randomIndex = random.nextInt(wordBank.length);
-        String word = wordBank[randomIndex];
+        String answerWord = wordBank[randomIndex];
 
-        int wordLength = word.length();
-        String[] initial = new String[wordLength];
-        String newInitial = StringBuffer(initial);
+        int answerWordLength = answerWord.length();
+
+        String[] initial = new String[answerWordLength];
+        // String newInitial = StringBuffer(initial);
+
+        String answerStr = "";
+
+        for (int i = 0; i < answerWordLength; i++) {
+            answerStr += "_ ";
+        }
+
+        answerLabel.setText(answerStr);
+
+        EditText textBoxUserInput = findViewById(R.id.playerGuess);
+
+        Button goButton = findViewById(R.id.go);
+        goButton.setOnClickListener(v -> {
+            String userInputStr = textBoxUserInput.getText().toString();
+
+            if (userInputStr.length() != 1) {
+                hintLabel.setText("Only one-character input is allowed!");
+                return;
+            }
+
+            for (int i = 0; i < answerWordLength; i++) {
+                char eachAnswerCharacter = answerWord.charAt(i);
+                String eachAnswerString = Character.toString(eachAnswerCharacter);
+                if (userInputStr.equals(eachAnswerString)) {
+                    String[] answerLabelStrArray = answerLabel.getText().toString().split("");
+                    answerLabelStrArray[i * 2] = userInputStr;
+                    answerLabel.setText(stringBuffer(answerLabelStrArray));  // there is a bug
+                } else {
+                    hintLabel.setText("No matching character was found! Try again!");
+                }
+            }
+
+        });
+
+        // answerLabel.setText(userInputStr);
+
+        // answer.setText(newInitial);
 
 
-        char[] wordChar = word.toCharArray(); // java -> j,a,v,a
+        /*char[] wordChar = word.toCharArray(); // java -> j,a,v,a
 
         int amountOfGuesses = wordChar.length; //total tries to guess a word.
         char[] playerGuess = new char[amountOfGuesses];
@@ -66,9 +107,10 @@ public class GameActivity extends AppCompatActivity {
         for (int i = 0; i < playerGuess.length; i++) {
                 playerGuess[i] = '_';
         }
-        answer.setText(new String(playerGuess));
+        answer.setText(new String(playerGuess)); */
 
-        Button enterAnswer = findViewById(R.id.go);
+
+       /* Button enterAnswer = findViewById(R.id.go);
         enterAnswer.setVisibility(View.VISIBLE);
         enterAnswer.setOnClickListener(v -> {
             EditText input = findViewById(R.id.playerGuess);
@@ -77,8 +119,11 @@ public class GameActivity extends AppCompatActivity {
             char[] chars = userOutput(userInput, wordChar);
             answer.setText(new String(chars));
 
-        });
+        }); */
+
     }
+
+
 
     /**
      *
@@ -102,16 +147,16 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param stringArray
-     * @return
+     * Helps transform a string array to a string.
+     * @param stringArray input string array.
+     * @return string with exact same characters.
      */
-    public String StringBuffer(String[] stringArray) {
+    public String stringBuffer(String[] stringArray) {
+        StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < stringArray.length; i++) {
-            StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append(stringArray[i]);
-            return stringBuilder.toString();
         }
+        return stringBuilder.toString();
     }
 
     ///**
@@ -120,7 +165,7 @@ public class GameActivity extends AppCompatActivity {
      //* @param answer default answer.
      //* @return the result.
      //*/
-    /*public String[] testMatch(String userInput, String answer) {
+    public String[] testMatch(String userInput, String answer) {
         int answerLength = answer.length();
         // this string array is made up of one-character strings
         String[] initial = new String[answerLength]; // initial string array has no answer filled in yet
@@ -133,9 +178,9 @@ public class GameActivity extends AppCompatActivity {
         char input = userInput.charAt(0);
         String[] newAnswer = initial;
         for (int answerIndex = 0; answerIndex < answer.length(); answerIndex++) {
-            /* if the user's input matches one of the letters in the answer string, then it replaces
-            the blank underline */
-            /*if (input == answer.charAt(answerIndex)) {
+            // if the user's input matches one of the letters in the answer string, then it replaces
+            // the blank underline
+            if (input == answer.charAt(answerIndex)) {
                 newAnswer[answerIndex] = userInput;
                 return newAnswer;
             }
@@ -143,5 +188,5 @@ public class GameActivity extends AppCompatActivity {
         return newAnswer;
     }
 
-             */
+
 }

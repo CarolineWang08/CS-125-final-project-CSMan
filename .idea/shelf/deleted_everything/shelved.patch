@@ -1,0 +1,185 @@
+Index: app/src/main/java/com/example/csman/GameActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.csman;\n\nimport androidx.appcompat.app.AppCompatActivity;\n\nimport android.content.Intent;\nimport android.os.Bundle;\nimport android.view.View;\nimport android.widget.Button;\nimport android.widget.EditText;\nimport android.widget.TextView;\n\npublic class GameActivity extends AppCompatActivity {\n    public static final String EXTRA_MESSAGE = \"com.example.CSMan.MESSAGE\";\n\n    @Override\n    protected void onCreate(Bundle savedInstanceState) {\n        super.onCreate(savedInstanceState);\n        setContentView(R.layout.activity_game);\n\n        Button exit = findViewById(R.id.exitGame);\n        exit.setVisibility(View.VISIBLE);\n        exit.setOnClickListener(v -> {\n            Intent backToGame = new Intent(this, LaunchActivity.class);\n            startActivity(backToGame);\n        });\n\n        Button enterAnswer = findViewById(R.id.go);\n        enterAnswer.setOnClickListener(v -> {\n            // use helper function\n            //testMatch(); // get variables from library\n            // if entered letter matches one of the letters in the answer, then the letter will become\n            // visible in the answer text box\n            // otherwise, one of geoff's head disappears\n\n            EditText input = findViewById(R.id.playerGuess);\n            String userInput = input.getText().toString();\n\n            String[] wordBank = {\"Pineapple\", \"Apple\", \"Car\", \"Jet\", \"Kite\", \"Champaign\",\n            \"Facebook\", \"Friend\", \"Terminal\", \"Routine\", \"Recursion\", \"Squirrel\", \"Mosque\", \"Pet\",\n            \"Janitor\", \"Complete\", \"Success\", \"Adjective\", \"Calculate\", \"Task\", \"Ticket\", \"Map\",\n            \"Easter\", \"Zoom\", \"Xylophone\", \"Network\", \"Web\", \"Shrine\", \"Date\", \"Eloquent\", \"Emperor\",\n            \"Beta\", \"Google\", \"Highlight\", \"Intuitive\", \"Joker\", \"Kind\", \"November\", \"Object\", \"Quarantine\",\n            \"Remnant\", \"Sly\", \"Titan\", \"Uranus\", \"Velocity\", \"Plane\", \"Wonderful\", \"Computer\", \"Binary\",\n            \"Jacket\", \"Potato\"}; // word bank\n            TextView answer = findViewById(R.id.answer);\n            // convert user's input into a string\n            //randomly get a string array from our software library\n            String[] temp;\n            for (int wbIndex = 0; wbIndex < wordBank.length; wbIndex++) {\n                temp = testMatch(userInput, wordBank[wbIndex]);\n                String output = \"\";\n                for (String str : temp) {\n                    output = output + str;\n                }\n                answer.setText(output);\n            }\n            //String output = tmp.toString()\n        });\n    }\n\n    /**\n     * Test to see if player's letter guess matches the letters in the word provided.\n     * @param userInput user's input.\n     * @param answer default answer.\n     * @return the result.\n     */\n    public String[] testMatch(String userInput, String answer) {\n        int answerLength = answer.length();\n        // this string array is made up of one-character strings\n        String[] initial = new String[answerLength]; // initial string array has no answer filled in yet\n        for (int index = 0; index < initial.length; index++) {\n            initial[index] = \"_ \";\n        } // now the value at every index in the array is \"_ \"\n        if (userInput.length() != 1) {\n            return initial;\n        }\n        char input = userInput.charAt(0);\n        String[] newAnswer = initial;\n        for (int answerIndex = 0; answerIndex < answer.length(); answerIndex++) {\n            /* if the user's input matches one of the letters in the answer string, then it replaces\n            the blank underline */\n            if (input == answer.charAt(answerIndex)) {\n                newAnswer[answerIndex] = userInput;\n                return newAnswer;\n            }\n        }\n        return newAnswer;\n    }\n\n    /**\n     *\n     */\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/java/com/example/csman/GameActivity.java	(date 1588267037000)
++++ app/src/main/java/com/example/csman/GameActivity.java	(date 1588432523000)
+@@ -2,8 +2,8 @@
+ 
+ import androidx.appcompat.app.AppCompatActivity;
+ 
+-import android.content.Intent;
+ import android.os.Bundle;
++import android.content.Intent;
+ import android.view.View;
+ import android.widget.Button;
+ import android.widget.EditText;
+@@ -17,15 +17,18 @@
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_game);
+ 
++        // exit game button
+         Button exit = findViewById(R.id.exitGame);
+-        exit.setVisibility(View.VISIBLE);
+         exit.setOnClickListener(v -> {
+             Intent backToGame = new Intent(this, LaunchActivity.class);
+             startActivity(backToGame);
+         });
+ 
++        // check user input button
+         Button enterAnswer = findViewById(R.id.go);
+         enterAnswer.setOnClickListener(v -> {
++
++        });
+             // use helper function
+             //testMatch(); // get variables from library
+             // if entered letter matches one of the letters in the answer, then the letter will become
+@@ -35,59 +38,51 @@
+             EditText input = findViewById(R.id.playerGuess);
+             String userInput = input.getText().toString();
+ 
+-            String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
++            String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kaleidoscope", "Champaign",
+             "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
+             "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
+             "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
+             "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
+             "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
+-            "Jacket", "Potato"}; // word bank
++            "Jacket", "Potato", "Magnesium", "Panda", "Kiwi", "Flare"}; // word bank
+             TextView answer = findViewById(R.id.answer);
+-            // convert user's input into a string
+-            //randomly get a string array from our software library
+-            String[] temp;
+-            for (int wbIndex = 0; wbIndex < wordBank.length; wbIndex++) {
+-                temp = testMatch(userInput, wordBank[wbIndex]);
+-                String output = "";
+-                for (String str : temp) {
+-                    output = output + str;
+-                }
+-                answer.setText(output);
+-            }
+-            //String output = tmp.toString()
+-        });
+     }
+ 
+-    /**
++    /*/**
+      * Test to see if player's letter guess matches the letters in the word provided.
++     * Set player's input into a new string array.
+      * @param userInput user's input.
+      * @param answer default answer.
+      * @return the result.
+      */
+-    public String[] testMatch(String userInput, String answer) {
+-        int answerLength = answer.length();
++    /*public String[] testMatch(String userInput, String answer) {
++
++        /*
++        Create a string array made up of one-character strings that will appear in the answer textbox.
++        Convert userInput into a character, then compare this character to the string array.
++        If there exists a value in the string array that matches the user's input, then we replace the
++        underscore with the correct letter.
++        Note that this new array must be stored, since when we check a second letter and it matches
++        another letter in the answer string, we must add this newly checked letter to the one stored from
++        before. In other words, we add the correct letters to our original array cumulatively.
++         */
++
++        /*int answerLength = answer.length();
+         // this string array is made up of one-character strings
+         String[] initial = new String[answerLength]; // initial string array has no answer filled in yet
+         for (int index = 0; index < initial.length; index++) {
+             initial[index] = "_ ";
+         } // now the value at every index in the array is "_ "
+-        if (userInput.length() != 1) {
+-            return initial;
+-        }
+         char input = userInput.charAt(0);
+         String[] newAnswer = initial;
+         for (int answerIndex = 0; answerIndex < answer.length(); answerIndex++) {
+             /* if the user's input matches one of the letters in the answer string, then it replaces
+             the blank underline */
+-            if (input == answer.charAt(answerIndex)) {
++            /*if (input == answer.charAt(answerIndex)) {
+                 newAnswer[answerIndex] = userInput;
+-                return newAnswer;
+             }
+         }
+         return newAnswer;
+     }
+-
+-    /**
+-     *
+-     */
++             */
+ }
+\ No newline at end of file
+Index: app/src/main/res/layout/activity_game.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\n<androidx.constraintlayout.widget.ConstraintLayout xmlns:android=\"http://schemas.android.com/apk/res/android\"\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\n    xmlns:tools=\"http://schemas.android.com/tools\"\n    android:layout_width=\"match_parent\"\n    android:layout_height=\"match_parent\"\n    tools:context=\".GameActivity\">\n\n    <Button\n        android:id=\"@+id/exitGame\"\n        android:layout_width=\"116dp\"\n        android:layout_height=\"52dp\"\n        android:text=\"Exit Game\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.945\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toTopOf=\"parent\"\n        app:layout_constraintVertical_bias=\"0.054\" />\n\n    <TextView\n        android:id=\"@+id/answer\"\n        android:layout_width=\"318dp\"\n        android:layout_height=\"61dp\"\n        android:shadowColor=\"#FFFFFF\"\n        android:textAllCaps=\"true\"\n        android:textSize=\"36sp\"\n        app:layout_constraintBottom_toTopOf=\"@+id/playerGuess\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.344\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/exitGame\" />\n\n    <EditText\n        android:id=\"@+id/playerGuess\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:ems=\"10\"\n        android:inputType=\"textPersonName\"\n        android:text=\"Guess the Letter\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintHorizontal_bias=\"0.424\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/answer\"\n        app:layout_constraintVertical_bias=\"0.448\" />\n\n    <Button\n        android:id=\"@+id/go\"\n        android:layout_width=\"wrap_content\"\n        android:layout_height=\"wrap_content\"\n        android:layout_marginStart=\"138dp\"\n        android:layout_marginLeft=\"138dp\"\n        android:layout_marginTop=\"30dp\"\n        android:layout_marginEnd=\"185dp\"\n        android:layout_marginRight=\"185dp\"\n        android:layout_marginBottom=\"82dp\"\n        android:text=\"Enter\"\n        app:layout_constraintBottom_toBottomOf=\"parent\"\n        app:layout_constraintEnd_toEndOf=\"parent\"\n        app:layout_constraintStart_toStartOf=\"parent\"\n        app:layout_constraintTop_toBottomOf=\"@+id/playerGuess\" />\n\n</androidx.constraintlayout.widget.ConstraintLayout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- app/src/main/res/layout/activity_game.xml	(date 1588267037000)
++++ app/src/main/res/layout/activity_game.xml	(date 1588269157000)
+@@ -27,20 +27,34 @@
+         android:textSize="36sp"
+         app:layout_constraintBottom_toTopOf="@+id/playerGuess"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.344"
++        app:layout_constraintHorizontal_bias="0.494"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/exitGame" />
+ 
++    <TextView
++        android:id="@+id/inputMessage"
++        android:layout_width="141dp"
++        android:layout_height="28dp"
++        android:layout_marginStart="135dp"
++        android:layout_marginLeft="135dp"
++        android:layout_marginTop="80dp"
++        android:layout_marginEnd="135dp"
++        android:layout_marginRight="135dp"
++        android:layout_marginBottom="70dp"
++        android:textSize="18sp"
++        app:layout_constraintBottom_toTopOf="@+id/playerGuess"
++        app:layout_constraintEnd_toEndOf="parent"
++        app:layout_constraintStart_toStartOf="parent"
++        app:layout_constraintTop_toBottomOf="@+id/answer" />
++
+     <EditText
+         android:id="@+id/playerGuess"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:ems="10"
+         android:inputType="textPersonName"
+-        android:text="Guess the Letter"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
+-        app:layout_constraintHorizontal_bias="0.424"
+         app:layout_constraintStart_toStartOf="parent"
+         app:layout_constraintTop_toBottomOf="@+id/answer"
+         app:layout_constraintVertical_bias="0.448" />
+@@ -49,12 +63,12 @@
+         android:id="@+id/go"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+-        android:layout_marginStart="138dp"
+-        android:layout_marginLeft="138dp"
+-        android:layout_marginTop="30dp"
+-        android:layout_marginEnd="185dp"
+-        android:layout_marginRight="185dp"
+-        android:layout_marginBottom="82dp"
++        android:layout_marginStart="162dp"
++        android:layout_marginLeft="162dp"
++        android:layout_marginTop="40dp"
++        android:layout_marginEnd="162dp"
++        android:layout_marginRight="162dp"
++        android:layout_marginBottom="91dp"
+         android:text="Enter"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintEnd_toEndOf="parent"
