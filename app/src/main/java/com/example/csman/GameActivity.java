@@ -19,6 +19,7 @@ public class GameActivity extends AppCompatActivity {
     TextView hintLabel;
     EditText textBoxUserInput;
     Button goButton;
+    Button viewAll;
 
 
     @Override
@@ -33,6 +34,8 @@ public class GameActivity extends AppCompatActivity {
             Intent backToGame = new Intent(this, MainActivity.class);
             startActivity(backToGame);
         });
+
+        viewAll = findViewById(R.id.view_all);
 
         //Button enterAnswer = findViewById(R.id.go);
         //enterAnswer.setVisibility(View.VISIBLE);
@@ -119,6 +122,17 @@ public class GameActivity extends AppCompatActivity {
                   }
 
               }
+        );
+    }
+
+    public void viewAll() {
+        viewAll.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                }
         );
     }
 
