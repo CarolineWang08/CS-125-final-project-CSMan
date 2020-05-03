@@ -1,13 +1,16 @@
 package com.example.csman;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageView;
 
 import java.util.Random;
 
@@ -20,7 +23,11 @@ public class GameActivity extends AppCompatActivity {
     EditText textBoxUserInput;
     Button goButton;
     Button viewAll;
-
+    ImageView chance1;
+    ImageView chance2;
+    ImageView chance3;
+    ImageView chance4;
+    ImageView chance5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +42,15 @@ public class GameActivity extends AppCompatActivity {
             startActivity(backToGame);
         });
 
-        viewAll = findViewById(R.id.view_all);
+        viewAll = findViewById(R.id.viewPastAnswers);
+
+        chance1 = findViewById(R.id.chance1);
+        chance2 = findViewById(R.id.chance2);
+        chance3 = findViewById(R.id.chance3);
+        chance4 = findViewById(R.id.chance4);
+        chance5 = findViewById(R.id.chance5);
+        // create an imageView array to store the five chances;
+        ImageView[] chances = {chance1, chance2, chance3, chance4, chance5};
 
         //Button enterAnswer = findViewById(R.id.go);
         //enterAnswer.setVisibility(View.VISIBLE);
@@ -90,19 +105,30 @@ public class GameActivity extends AppCompatActivity {
             for (int answerWordIndex = 0; answerWordIndex < answerWordLength; answerWordIndex++) {
                 char eachAnswerCharacter = answerWord.charAt(answerWordIndex);
                 char userInputChar = userInputStr.charAt(0);
+                String newInitial = stringBuffer(initial);
+                if (userInputChar == newInitial.charAt(answerWordIndex)) {
+                    hintLabel.setText("You've already tried this letter! Choose another one!");
+                    return;
+                } // if the user has already tried the letter, change hint message
                 if (userInputChar == eachAnswerCharacter) {
                     initial[answerWordIndex] = userInputStr;
                     answerLabel.setText(stringBuffer(initial));
                     hintLabel.setText("Good job! Try another letter!");
+                    for (int chanceIndex1 = 0; chanceIndex1 < chances.length; chanceIndex1++) {
+                        chances[chanceIndex1].setVisibility(View.VISIBLE);
+                    }
                     return;
                 } else {
                     hintLabel.setText("No matching character was found! Try again!");
                     AddData();
+                    /*for (ImageView oneChance : chances) {
+                        oneChance.setVisibility(View.GONE);
+                    } // run through the imageView array and delete chance images one by one */
                 }
             }
         });
 
-
+        viewAll();
     }
     public void AddData() {
         // goButton.setOnClickListener(
@@ -127,10 +153,30 @@ public class GameActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Cursor res = gameDb.getAllData();
+                        if (res.getCount() == 0) {
+                            // show message
+                            showMessage("Record", "No wrong letter found");
+                            return;
+                        }
 
+                        StringBuffer buffer = new StringBuffer();
+                        while (res.moveToNext()) {
+                            buffer.append("wrong_letter :" + res.getString(0) + "\n");
+                        }
+                        // show all data
+                        showMessage("Record", buffer.toString());
                     }
                 }
         );
+    }
+
+    public void showMessage(String title, String Message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(Message);
+        builder.show();
     }
 
     /**
