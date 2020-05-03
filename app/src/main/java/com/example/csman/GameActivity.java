@@ -1,7 +1,9 @@
 package com.example.csman;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -74,7 +76,6 @@ public class GameActivity extends AppCompatActivity {
             initial[initialIndex] = "_ ";
         }
         String answerString = stringBuffer(initial);
-
         answerLabel.setText(answerString);
 
         textBoxUserInput = findViewById(R.id.playerGuess);
@@ -88,13 +89,14 @@ public class GameActivity extends AppCompatActivity {
                 return;
             }
 
-            for (int i = 0; i < answerWordLength; i++) {
-                char eachAnswerCharacter = answerWord.charAt(i);
-                String eachAnswerString = Character.toString(eachAnswerCharacter);
-                if (userInputStr.equals(eachAnswerString)) {
-                    String[] answerLabelStrArray = answerLabel.getText().toString().split("");
-                    answerLabelStrArray[i * 2] = userInputStr;
-                    answerLabel.setText(stringBuffer(answerLabelStrArray));
+            for (int wordIndex = 0; wordIndex < answerWordLength; wordIndex++) {
+                char eachAnswerCharacter = answerWord.charAt(wordIndex);
+                char userInputChar = userInputStr.charAt(0);
+                if (userInputChar == eachAnswerCharacter) {
+                    initial[wordIndex] = userInputStr;
+                    //String[] answerLabelStrArray = answerString.split("");
+                    //answerLabelStrArray[i * 2] = userInputStr;
+                    answerLabel.setText(stringBuffer(initial));
                     hintLabel.setText("Good job! Try another letter!");
                     return;
                 } else {
@@ -102,10 +104,9 @@ public class GameActivity extends AppCompatActivity {
                     AddData();
                 }
             }
-
         });
 
-
+        viewAll();
     }
     public void AddData() {
         goButton.setOnClickListener(
@@ -130,10 +131,30 @@ public class GameActivity extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
+                        Cursor res = gameDb.getAllData();
+                        if (res.getCount() == 0) {
+                            // show message
+                            showMessage("Record", "No wrong letter found");
+                            return;
+                        }
 
+                        StringBuffer buffer = new StringBuffer();
+                        while (res.moveToNext()) {
+                            buffer.append("wrong_letter :" + res.getString(0) + "\n");
+                        }
+                        // show all data
+                        showMessage("Record", buffer.toString());
                     }
                 }
         );
+    }
+
+    public void showMessage(String title, String Message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle(title);
+        builder.setMessage(Message);
+        builder.show();
     }
 
     /**
