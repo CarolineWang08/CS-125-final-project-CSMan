@@ -4,7 +4,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +13,8 @@ import android.widget.Toast;
 import android.widget.ImageView;
 
 import java.util.Random;
+import java.util.List;
+import java.util.ArrayList;
 
 public class GameActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.CSMan.MESSAGE";
@@ -30,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
     ImageView chance3;
     ImageView chance4;
     ImageView chance5;
+    List<ImageView> chanceList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +42,7 @@ public class GameActivity extends AppCompatActivity {
         exitButton = findViewById(R.id.exitGame);
         exitButton.setVisibility(View.VISIBLE);
         exitButton.setOnClickListener(v -> {
-            Intent backToGame = new Intent(this, MainActivity.class);
+            Intent backToGame = new Intent(this, LaunchActivity.class);
             startActivity(backToGame);
         });
 
@@ -48,32 +50,28 @@ public class GameActivity extends AppCompatActivity {
         clearDatabase = findViewById(R.id.clearDatabase);
 
         chance1 = findViewById(R.id.chance1);
+        chanceList.add(chance1);
         chance2 = findViewById(R.id.chance2);
+        chanceList.add(chance2);
         chance3 = findViewById(R.id.chance3);
+        chanceList.add(chance3);
         chance4 = findViewById(R.id.chance4);
+        chanceList.add(chance4);
         chance5 = findViewById(R.id.chance5);
-        // create an imageView array to store the five chances;
+        chanceList.add(chance5);
+        chanceSetVisibility(chanceList);
+        // store the chance images into a list and set visibility
 
-        //Button enterAnswer = findViewById(R.id.go);
-        //enterAnswer.setVisibility(View.VISIBLE);
-        //enterAnswer.setOnClickListener(v -> {
-            // use helper function
-            //testMatch(); // get variables from library
-            // if entered letter matches one of the letters in the answer, then the letter will become
-            // visible in the answer text box
-            // otherwise, one of geoff's head disappear
+        String[] bank = {"JAKE", "CAROLINE", "KITETSU", "ALICE"};
 
-
-        String[] wordBank = {"JAKE", "CAROLINE", "KITETSU", "ALICE"};
-
-        /*String[] wordBank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
+        /* String[] bank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
              "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
              "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
              "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
              "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
              "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
-             "Jacket", "Potato"};
-         */
+             "Jacket", "Potato", "Head", "Flamingo"}; */
+        String[] wordBank = changeToUpperCase(bank);
 
         answerLabel = findViewById(R.id.answer);
         hintLabel = findViewById(R.id.hint);
@@ -104,6 +102,14 @@ public class GameActivity extends AppCompatActivity {
                 return;
             } // if the user's input is more than one character, then change hint message
 
+            if (chanceList.size() == 0) {
+                hintLabel.setText("You have run out of tries. Exit game and try again!");
+            } // if the user runs out of chances, then change hint message
+
+            if(answerString.equals(answerWord)) {
+                hintLabel.setText("Congratulations! You have won the game!");
+            } // if the user finds the word, then change hint message
+
             for (int answerWordIndex = 0; answerWordIndex < answerWordLength; answerWordIndex++) {
                 char eachAnswerCharacter = answerWord.charAt(answerWordIndex);
                 char userInputChar = userInputStr.charAt(0);
@@ -112,21 +118,17 @@ public class GameActivity extends AppCompatActivity {
                     hintLabel.setText("You've already tried this letter! Choose another one!");
                     return;
                 } // if the user has already tried the letter, change hint message
-                ImageView[] chances = {chance1, chance2, chance3, chance4, chance5};
                 if (userInputChar == eachAnswerCharacter) {
                     initial[answerWordIndex] = userInputStr;
                     answerLabel.setText(stringBuffer(initial));
                     hintLabel.setText("Good job! Try another letter!");
-                    for (int chanceIndex = 0; chanceIndex < chances.length; chanceIndex++) {
-                        chances[chanceIndex].setVisibility(View.VISIBLE);
-                    }
                     return;
-                } else {
-                    hintLabel.setText("No matching character was found! Try again!");
-                    AddData();
-                    // run through the imageView array and delete chance images one by one
                 }
             }
+            ImageView removedElement = chanceList.remove(chanceList.size() - 1);
+            removedElement.setVisibility(View.GONE);
+            hintLabel.setText("No matching character was found! Try again!");
+            AddData();
         });
 
         viewAll();
@@ -160,15 +162,24 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
+     * Sets all ImageView objects inside a list to be visible.
+     * @param imageList list containing imageView objects.
+     */
+    public void chanceSetVisibility(List<ImageView> imageList) {
+        for (int listIndex = 0; listIndex < imageList.size(); listIndex++) {
+            ImageView imageElement = imageList.get(listIndex);
+            imageElement.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
      *
      */
     public void AddData() {
-                      boolean isInserted = gameDb.insertData(textBoxUserInput.getText().toString());
-                      if (isInserted == true) {
-                          Toast.makeText(GameActivity.this, "Data inserted", Toast.LENGTH_LONG).show();
-                      } else {
-                          Toast.makeText(GameActivity.this, "Data not inserted", Toast.LENGTH_LONG).show();
-                      }
+        boolean isInserted = gameDb.insertData(textBoxUserInput.getText().toString());
+        if (isInserted == true) {
+            Toast.makeText(GameActivity.this, "Data inserted", Toast.LENGTH_LONG).show();
+        }
     }
 
     /**

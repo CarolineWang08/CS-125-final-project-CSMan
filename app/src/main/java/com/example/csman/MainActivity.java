@@ -17,11 +17,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         EditText name = findViewById(R.id.nameInput);
-        String playerName = name.getText().toString();
+        String nameInput = name.getText().toString();
+
         Button start = findViewById(R.id.setGame);
         start.setOnClickListener(v -> {
             Intent launchGame = new Intent(this, LaunchActivity.class);
-            launchGame.putExtra("name", playerName);
+            if ()
+            launchGame.putExtra("name", nameInput);
             startActivity(launchGame);
         });
     }
