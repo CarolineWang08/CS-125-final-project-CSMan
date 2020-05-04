@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -52,7 +53,6 @@ public class GameActivity extends AppCompatActivity {
         chance4 = findViewById(R.id.chance4);
         chance5 = findViewById(R.id.chance5);
         // create an imageView array to store the five chances;
-        ImageView[] chances = {chance1, chance2, chance3, chance4, chance5};
 
         //Button enterAnswer = findViewById(R.id.go);
         //enterAnswer.setVisibility(View.VISIBLE);
@@ -112,20 +112,19 @@ public class GameActivity extends AppCompatActivity {
                     hintLabel.setText("You've already tried this letter! Choose another one!");
                     return;
                 } // if the user has already tried the letter, change hint message
+                ImageView[] chances = {chance1, chance2, chance3, chance4, chance5};
                 if (userInputChar == eachAnswerCharacter) {
                     initial[answerWordIndex] = userInputStr;
                     answerLabel.setText(stringBuffer(initial));
                     hintLabel.setText("Good job! Try another letter!");
-                    for (int chanceIndex1 = 0; chanceIndex1 < chances.length; chanceIndex1++) {
-                        chances[chanceIndex1].setVisibility(View.VISIBLE);
+                    for (int chanceIndex = 0; chanceIndex < chances.length; chanceIndex++) {
+                        chances[chanceIndex].setVisibility(View.VISIBLE);
                     }
                     return;
                 } else {
                     hintLabel.setText("No matching character was found! Try again!");
                     AddData();
-                    for (ImageView oneChance : chances) {
-                        oneChance.setVisibility(View.GONE);
-                    } // run through the imageView array and delete chance images one by one
+                    // run through the imageView array and delete chance images one by one
                 }
             }
         });
@@ -133,24 +132,48 @@ public class GameActivity extends AppCompatActivity {
         viewAll();
         clearData();
     }
+
+    /**
+     * Helps transform a string array to a string.
+     * @param stringArray input string array.
+     * @return string with exact same characters.
+     */
+    public String stringBuffer(String[] stringArray) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < stringArray.length; i++) {
+            stringBuilder.append(stringArray[i]);
+        }
+        return stringBuilder.toString();
+    }
+
+    /**
+     * Changes string in the wordBnak to all caps.
+     * @param array word bank
+     * @return new word bank with all caps
+     */
+    public String[] changeToUpperCase(String[] array) {
+        String[] newArray = new String[array.length];
+        for (int i = 0; i < array.length; i++) {
+            newArray[i] = array[i].toUpperCase();
+        }
+        return newArray;
+    }
+
+    /**
+     *
+     */
     public void AddData() {
-        // goButton.setOnClickListener(
-              // new View.OnClickListener() {
-                  //@Override
-                  //public void onClick(View v) {
                       boolean isInserted = gameDb.insertData(textBoxUserInput.getText().toString());
                       if (isInserted == true) {
                           Toast.makeText(GameActivity.this, "Data inserted", Toast.LENGTH_LONG).show();
                       } else {
                           Toast.makeText(GameActivity.this, "Data not inserted", Toast.LENGTH_LONG).show();
                       }
-
-                  //}
-
-              //}
-        //);
     }
 
+    /**
+     *
+     */
     public void viewAll() {
         viewAll.setOnClickListener(
                 new View.OnClickListener() {
@@ -185,32 +208,6 @@ public class GameActivity extends AppCompatActivity {
         builder.setTitle(title);
         builder.setMessage(Message);
         builder.show();
-    }
-
-    /**
-     * Helps transform a string array to a string.
-     * @param stringArray input string array.
-     * @return string with exact same characters.
-     */
-    public String stringBuffer(String[] stringArray) {
-        StringBuilder stringBuilder = new StringBuilder();
-        for (int i = 0; i < stringArray.length; i++) {
-            stringBuilder.append(stringArray[i]);
-        }
-        return stringBuilder.toString();
-    }
-
-    /**
-     * Changes string in the wordBnak to all caps.
-     * @param array word bank
-     * @return new word bank with all caps
-     */
-    public String[] changeToUpperCase(String[] array) {
-        String[] newArray = new String[array.length];
-        for (int i = 0; i < array.length; i++) {
-            newArray[i] = array[i].toUpperCase();
-        }
-        return newArray;
     }
 
     /**
