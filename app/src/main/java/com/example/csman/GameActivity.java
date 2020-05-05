@@ -62,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
         chanceSetVisibility(chanceList);
         // store the chance images into a list and set visibility
 
-        String[] bank = {"JAKE", "CAROLINE", "KITETSU", "ALICE"};
+        String[] bank = {"Water"};
 
         /* String[] bank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
              "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
@@ -111,18 +111,21 @@ public class GameActivity extends AppCompatActivity {
 
             for (int answerWordIndex = 0; answerWordIndex < answerWordLength; answerWordIndex++) {
                 char eachAnswerCharacter = answerWord.charAt(answerWordIndex);
+                System.out.println("Input: " + userInputStr + ", eachChar: " + eachAnswerCharacter);
                 char userInputChar = userInputStr.charAt(0);
                 String newInitial = stringBuffer(initial);
                 if (userInputChar == newInitial.charAt(answerWordIndex)) {
                     hintLabel.setText("You've already tried this letter! Choose another one!");
                     return;
-                } // if the user has already tried the letter, change hint message
+                }
                 if (userInputChar == eachAnswerCharacter) {
                     initial[answerWordIndex] = userInputStr;
                     answerLabel.setText(stringBuffer(initial));
                     hintLabel.setText("Good job! Try another letter!");
                     return;
                 }
+                // if the user has already tried the letter, change hint message
+                System.out.println(stringBuffer(initial));
             }
             ImageView removedElement = chanceList.remove(chanceList.size() - 1);
             removedElement.setVisibility(View.GONE);
