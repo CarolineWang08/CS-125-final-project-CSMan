@@ -62,7 +62,7 @@ public class GameActivity extends AppCompatActivity {
         chanceSetVisibility(chanceList);
         // store the chance images into a list and set visibility
 
-        String[] bank = {"Water"};
+        String[] bank = {"Water", "Melon"};
 
         /* String[] bank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
              "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
@@ -70,7 +70,7 @@ public class GameActivity extends AppCompatActivity {
              "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
              "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
              "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
-             "Jacket", "Potato", "Head", "Flamingo"}; */
+             "Jacket", "Potato", "Head", "Flamingo", "Water", "Melon"}; */
         String[] wordBank = changeToUpperCase(bank);
 
         answerLabel = findViewById(R.id.answer);
