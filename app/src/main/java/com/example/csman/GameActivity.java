@@ -78,14 +78,10 @@ public class GameActivity extends AppCompatActivity {
         hintLabel.setText("Enter a letter.");
 
         // randomly get a word from wordBank
-        Random random = new Random();
-        int randomIndex = random.nextInt(wordBank.length);
-        String answerWord = wordBank[randomIndex];
+        String answerWord = randomStringGenerate(wordBank);
 
-        int answerWordLength = answerWord.length();
-
-        String[] initial = new String[answerWordLength];
-        for (int initialIndex = 0; initialIndex < answerWordLength; initialIndex++) {
+        String[] initial = new String[answerWord.length()];
+        for (int initialIndex = 0; initialIndex < answerWord.length(); initialIndex++) {
             initial[initialIndex] = "_ ";
         }
         String answerString = stringBuffer(initial);
@@ -110,7 +106,7 @@ public class GameActivity extends AppCompatActivity {
                 hintLabel.setText("Congratulations! You have won the game!");
             } // if the user finds the word, then change hint message
 
-            for (int answerWordIndex = 0; answerWordIndex < answerWordLength; answerWordIndex++) {
+            for (int answerWordIndex = 0; answerWordIndex < answerWord.length(); answerWordIndex++) {
                 char eachAnswerCharacter = answerWord.charAt(answerWordIndex);
                 char userInputChar = userInputStr.charAt(0);
                 String newInitial = stringBuffer(initial);
@@ -173,7 +169,18 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * Randomly generates a string from an array of strings.
+     * @param array the array of strings
+     * @return
+     */
+    public String randomStringGenerate(String[] array) {
+        Random random = new Random();
+        int randIndex = random.nextInt();
+        return array[randIndex];
+    }
+
+    /**
+     * Save wrong letters into database
      */
     public void AddData() {
         boolean isInserted = gameDb.insertData(textBoxUserInput.getText().toString());
@@ -183,7 +190,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * Record past wrong letters
      */
     public void viewAll() {
         viewAll.setOnClickListener(
@@ -209,9 +216,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     *
-     * @param title
-     * @param Message
+     * help viewAll() function to show wrong letter record
+     * @param title title
+     * @param Message message showed in viewAll() function
      */
     public void showMessage(String title, String Message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -222,7 +229,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     *
+     * clear past records
      */
     public void clearData() {
         clearDatabase.setOnClickListener(
@@ -234,33 +241,4 @@ public class GameActivity extends AppCompatActivity {
                 }
         );
     }
-
-    ///**
-     //* Test to see if player's letter guess matches the letters in the word provided.
-     //* @param userInput user's input.
-     //* @param answer default answer.
-     //* @return the result.
-     //*/
-    /*public String[] testMatch(String userInput, String answer) {
-        int answerLength = answer.length();
-        // this string array is made up of one-character strings
-        String[] initial = new String[answerLength]; // initial string array has no answer filled in yet
-        for (int index = 0; index < initial.length; index++) {
-            initial[index] = "_ ";
-        } // now the value at every index in the array is "_ "
-        if (userInput.length() != 1) {
-            return initial;
-        }
-        char input = userInput.charAt(0);
-        String[] newAnswer = initial;
-        for (int answerIndex = 0; answerIndex < answer.length(); answerIndex++) {
-            // if the user's input matches one of the letters in the answer string, then it replaces
-            // the blank underline
-            if (input == answer.charAt(answerIndex)) {
-                newAnswer[answerIndex] = userInput;
-                return newAnswer;
-            }
-        }
-        return newAnswer;
-    } */
 }

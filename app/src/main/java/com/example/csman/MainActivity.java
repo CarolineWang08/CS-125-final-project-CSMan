@@ -22,8 +22,9 @@ public class MainActivity extends AppCompatActivity {
         Button start = findViewById(R.id.setGame);
         start.setOnClickListener(v -> {
             Intent launchGame = new Intent(this, LaunchActivity.class);
-            if ()
-            launchGame.putExtra("name", nameInput);
+            if (nameInput != null && nameInput != "") {
+                launchGame.putExtra("name", nameInput);
+            }
             startActivity(launchGame);
         });
     }
