@@ -23,8 +23,6 @@ public class LaunchActivity extends AppCompatActivity {
         });
 
         TextView welcomeMessage = findViewById(R.id.welcome);
-        Intent intent = getIntent();
-        String nameInput = intent.getStringExtra("name");
-        welcomeMessage.setText("Welcome to CSMAN2020," + " " + nameInput);
+        welcomeMessage.setText("Welcome to CSMAN2020!");
     }
 }

@@ -22,9 +22,7 @@ public class MainActivity extends AppCompatActivity {
         Button start = findViewById(R.id.setGame);
         start.setOnClickListener(v -> {
             Intent launchGame = new Intent(this, LaunchActivity.class);
-            if (nameInput != null && nameInput != "") {
-                launchGame.putExtra("name", nameInput);
-            }
+            launchGame.putExtra("name", nameInput);
             startActivity(launchGame);
         });
     }

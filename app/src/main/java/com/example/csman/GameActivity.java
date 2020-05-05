@@ -78,10 +78,13 @@ public class GameActivity extends AppCompatActivity {
         hintLabel.setText("Enter a letter.");
 
         // randomly get a word from wordBank
-        String answerWord = randomStringGenerate(wordBank);
+        Random random = new Random();
+        int randIndex = random.nextInt(wordBank.length);
+        String answerWord = wordBank[randIndex];
+        int answerWordLength = answerWord.length();
 
-        String[] initial = new String[answerWord.length()];
-        for (int initialIndex = 0; initialIndex < answerWord.length(); initialIndex++) {
+        String[] initial = new String[answerWordLength];
+        for (int initialIndex = 0; initialIndex < answerWordLength; initialIndex++) {
             initial[initialIndex] = "_ ";
         }
         String answerString = stringBuffer(initial);
@@ -106,7 +109,7 @@ public class GameActivity extends AppCompatActivity {
                 hintLabel.setText("Congratulations! You have won the game!");
             } // if the user finds the word, then change hint message
 
-            for (int answerWordIndex = 0; answerWordIndex < answerWord.length(); answerWordIndex++) {
+            for (int answerWordIndex = 0; answerWordIndex < answerWordLength; answerWordIndex++) {
                 char eachAnswerCharacter = answerWord.charAt(answerWordIndex);
                 char userInputChar = userInputStr.charAt(0);
                 String newInitial = stringBuffer(initial);
@@ -166,17 +169,6 @@ public class GameActivity extends AppCompatActivity {
             ImageView imageElement = imageList.get(listIndex);
             imageElement.setVisibility(View.VISIBLE);
         }
-    }
-
-    /**
-     * Randomly generates a string from an array of strings.
-     * @param array the array of strings
-     * @return
-     */
-    public String randomStringGenerate(String[] array) {
-        Random random = new Random();
-        int randIndex = random.nextInt();
-        return array[randIndex];
     }
 
     /**
