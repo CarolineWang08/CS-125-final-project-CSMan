@@ -37,14 +37,34 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        gameDb = new DatabaseHelper(this);
 
+        initialize();
+
+        // randomly get a word from wordBank
+        String answerWord = getAnswerWord();
+        int answerWordLength = answerWord.length();
+
+        String[] initial = new String[answerWordLength];
+        for (int initialIndex = 0; initialIndex < answerWordLength; initialIndex++) {
+            initial[initialIndex] = "_ ";
+        }
+        String answerString = stringBuffer(initial);
+        answerLabel.setText(answerString);
+
+        playGame(answerString, answerWord, answerWordLength, initial);
+
+    }
+
+    /**
+     * Initialize neccesary object.
+     */
+    public void initialize() {
+        gameDb = new DatabaseHelper(this);
         exitButton = findViewById(R.id.exitGame);
         exitButton.setVisibility(View.VISIBLE);
-        exitButton.setOnClickListener(v -> {
-            Intent backToGame = new Intent(this, LaunchActivity.class);
-            startActivity(backToGame);
-        });
+        goButton = findViewById(R.id.go);
+
+        textBoxUserInput = findViewById(R.id.playerGuess); // user input from textbox
 
         viewAll = findViewById(R.id.viewPastAnswers);
         clearDatabase = findViewById(R.id.clearDatabase);
@@ -60,81 +80,78 @@ public class GameActivity extends AppCompatActivity {
         chance5 = findViewById(R.id.chance5);
         chanceList.add(chance5);
         chanceSetVisibility(chanceList);
-        // store the chance images into a list and set visibility
-
-        String[] bank = {"Water", "Melon"};
-
-        /* String[] bank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
-             "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
-             "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
-             "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
-             "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
-             "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
-             "Jacket", "Potato", "Head", "Flamingo", "Water", "Melon"}; */
-        String[] wordBank = changeToUpperCase(bank);
 
         answerLabel = findViewById(R.id.answer);
         hintLabel = findViewById(R.id.hint);
         hintLabel.setText("Enter a letter.");
+    }
 
-        // randomly get a word from wordBank
+    /**
+     * Get the answer key from the word bank.
+     * @return the answer in String
+     */
+    public String getAnswerWord() {
+        String[] bank = {"Pineapple", "Apple", "Car", "Jet", "Kite", "Champaign",
+                "Facebook", "Friend", "Terminal", "Routine", "Recursion", "Squirrel", "Mosque", "Pet",
+                "Janitor", "Complete", "Success", "Adjective", "Calculate", "Task", "Ticket", "Map",
+                "Easter", "Zoom", "Xylophone", "Network", "Web", "Shrine", "Date", "Eloquent", "Emperor",
+                "Beta", "Google", "Highlight", "Intuitive", "Joker", "Kind", "November", "Object", "Quarantine",
+                "Remnant", "Sly", "Titan", "Uranus", "Velocity", "Plane", "Wonderful", "Computer", "Binary",
+                "Jacket", "Potato", "Head", "Flamingo", "Water", "Melon"};
         Random random = new Random();
-        int randIndex = random.nextInt(wordBank.length);
-        String answerWord = wordBank[randIndex];
-        int answerWordLength = answerWord.length();
+        int randIndex = random.nextInt(bank.length);
+        return bank[randIndex].toUpperCase();
+    }
 
-        String[] initial = new String[answerWordLength];
-        for (int initialIndex = 0; initialIndex < answerWordLength; initialIndex++) {
-            initial[initialIndex] = "_ ";
-        }
-        String answerString = stringBuffer(initial);
-        answerLabel.setText(answerString);
+    /**
+     * Handle the user playing the game.
+     * @param answerString answer from the answerLabel in String
+     * @param answerWord answer word in String
+     * @param answerWordLength answer word length in int
+     * @param initial array of String that represents the answerLabel
+     */
+    public void playGame(String answerString, String answerWord, int answerWordLength, String[] initial) {
 
-        textBoxUserInput = findViewById(R.id.playerGuess); // user input from textbox
+        exitButton.setOnClickListener(v -> {
+            Intent backToGame = new Intent(this, LaunchActivity.class);
+            startActivity(backToGame);
+        });
 
-        goButton = findViewById(R.id.go);
         goButton.setOnClickListener(v -> {
-            String userInputStr = textBoxUserInput.getText().toString(); // user input converted to string
+            String userInputStr = textBoxUserInput.getText().toString().toUpperCase(); // user input converted to string
 
             if (userInputStr.length() != 1) {
                 hintLabel.setText("Only one-character input is allowed!");
-                return;
-            } // if the user's input is more than one character, then change hint message
-
-            if (chanceList.size() == 0) {
+            } else if (chanceList.size() == 0) {
                 hintLabel.setText("You have run out of tries. Exit game and try again!");
-            } // if the user runs out of chances, then change hint message
-
-            if(answerString.equals(answerWord)) {
-                hintLabel.setText("Congratulations! You have won the game!");
-            } // if the user finds the word, then change hint message
-
-            for (int answerWordIndex = 0; answerWordIndex < answerWordLength; answerWordIndex++) {
-                char eachAnswerCharacter = answerWord.charAt(answerWordIndex);
-                System.out.println("Input: " + userInputStr + ", eachChar: " + eachAnswerCharacter);
-                char userInputChar = userInputStr.charAt(0);
-                String newInitial = stringBuffer(initial);
-                if (userInputChar == newInitial.charAt(answerWordIndex)) {
-                    hintLabel.setText("You've already tried this letter! Choose another one!");
-                    return;
+            } else if (!answerWord.contains(userInputStr)) {
+                ImageView removedElement = chanceList.remove(chanceList.size() - 1);
+                removedElement.setVisibility(View.GONE);
+                hintLabel.setText("No matching character was found! Try again!");
+                AddData();
+            } else {
+                for (int answerWordIndex = 0; answerWordIndex < answerWordLength; answerWordIndex++) {
+                    char eachAnswerCharacter = answerWord.charAt(answerWordIndex);
+                    char userInputChar = userInputStr.charAt(0);
+                    String newInitial = stringBuffer(initial);
+                    if (userInputChar == newInitial.charAt(answerWordIndex)) {
+                        hintLabel.setText("You've already tried this letter! Choose another one!");
+                    } else if (userInputChar == eachAnswerCharacter) {
+                        initial[answerWordIndex] = userInputStr;
+                        answerLabel.setText(stringBuffer(initial));
+                        hintLabel.setText("Good job! Try another letter!");
+                    }
                 }
-                if (userInputChar == eachAnswerCharacter) {
-                    initial[answerWordIndex] = userInputStr;
-                    answerLabel.setText(stringBuffer(initial));
-                    hintLabel.setText("Good job! Try another letter!");
-                    return;
-                }
-                // if the user has already tried the letter, change hint message
-                System.out.println(stringBuffer(initial));
             }
-            ImageView removedElement = chanceList.remove(chanceList.size() - 1);
-            removedElement.setVisibility(View.GONE);
-            hintLabel.setText("No matching character was found! Try again!");
-            AddData();
+            // User has won
+            if (answerLabel.getText().toString().equals(answerWord)) {
+                hintLabel.setText("Congratulations! You have won the game!");
+            }
         });
 
         viewAll();
         clearData();
+
     }
 
     /**
@@ -179,7 +196,7 @@ public class GameActivity extends AppCompatActivity {
      */
     public void AddData() {
         boolean isInserted = gameDb.insertData(textBoxUserInput.getText().toString());
-        if (isInserted == true) {
+        if (isInserted) {
             Toast.makeText(GameActivity.this, "Data inserted", Toast.LENGTH_LONG).show();
         }
     }
