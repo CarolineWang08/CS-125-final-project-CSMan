@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "userInput.db";
@@ -54,4 +55,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String clearDBQuery = "DELETE FROM " + TABLE_NAME;
         db.execSQL(clearDBQuery);
     }
+
+    public String getDataAsString() {
+        Cursor res = getAllData();
+        if (res.getCount() != 0) {
+            StringBuffer buffer = new StringBuffer();
+            while (res.moveToNext()) {
+                buffer.append("wrong_letter :" + res.getString(0) + "\n");
+            }
+            return buffer.toString();
+        } else {
+            return "No wrong letter found";
+        }
+    }
+
 }

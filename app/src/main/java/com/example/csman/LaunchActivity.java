@@ -3,9 +3,13 @@ package com.example.csman;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.widget.Button;
 import android.widget.TextView;
+
+import java.util.concurrent.Delayed;
 
 
 public class LaunchActivity extends AppCompatActivity {
@@ -24,5 +28,6 @@ public class LaunchActivity extends AppCompatActivity {
 
         TextView welcomeMessage = findViewById(R.id.welcome);
         welcomeMessage.setText("Welcome to CSMAN2020!");
+
     }
 }

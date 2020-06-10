@@ -56,7 +56,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     * Initialize neccesary object.
+     * Initialize necessary objects.
      */
     public void initialize() {
         gameDb = new DatabaseHelper(this);
@@ -113,6 +113,7 @@ public class GameActivity extends AppCompatActivity {
     public void playGame(String answerString, String answerWord, int answerWordLength, String[] initial) {
 
         exitButton.setOnClickListener(v -> {
+            clearData();
             Intent backToGame = new Intent(this, LaunchActivity.class);
             startActivity(backToGame);
         });
@@ -123,7 +124,8 @@ public class GameActivity extends AppCompatActivity {
             if (userInputStr.length() != 1) {
                 hintLabel.setText("Only one-character input is allowed!");
             } else if (chanceList.size() == 0) {
-                hintLabel.setText("You have run out of tries. Exit game and try again!");
+                hintLabel.setText("You have run out of tries. Exit game and try again!" + "\n" +
+                                    "The correct word is: " + answerWord);
             } else if (!answerWord.contains(userInputStr)) {
                 ImageView removedElement = chanceList.remove(chanceList.size() - 1);
                 removedElement.setVisibility(View.GONE);
@@ -149,8 +151,13 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        viewAll();
-        clearData();
+        clearDatabase.setOnClickListener(v -> {
+            clearData();
+        });
+
+        viewAll.setOnClickListener(v -> {
+            showMessage("Record", gameDb.getDataAsString());
+        });
 
     }
 
@@ -165,19 +172,6 @@ public class GameActivity extends AppCompatActivity {
             stringBuilder.append(stringArray[i]);
         }
         return stringBuilder.toString();
-    }
-
-    /**
-     * Changes string in the wordBnak to all caps.
-     * @param array word bank
-     * @return new word bank with all caps
-     */
-    public String[] changeToUpperCase(String[] array) {
-        String[] newArray = new String[array.length];
-        for (int i = 0; i < array.length; i++) {
-            newArray[i] = array[i].toUpperCase();
-        }
-        return newArray;
     }
 
     /**
@@ -202,32 +196,6 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     * Record past wrong letters
-     */
-    public void viewAll() {
-        viewAll.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Cursor res = gameDb.getAllData();
-                        if (res.getCount() == 0) {
-                            // show message
-                            showMessage("Record", "No wrong letter found");
-                            return;
-                        }
-
-                        StringBuffer buffer = new StringBuffer();
-                        while (res.moveToNext()) {
-                            buffer.append("wrong_letter :" + res.getString(0) + "\n");
-                        }
-                        // show all data
-                        showMessage("Record", buffer.toString());
-                    }
-                }
-        );
-    }
-
-    /**
      * help viewAll() function to show wrong letter record
      * @param title title
      * @param Message message showed in viewAll() function
@@ -241,16 +209,9 @@ public class GameActivity extends AppCompatActivity {
     }
 
     /**
-     * clear past records
+     * clear past records.
      */
     public void clearData() {
-        clearDatabase.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        gameDb.clearDatabase();
-                    }
-                }
-        );
+        gameDb.clearDatabase();
     }
 }
