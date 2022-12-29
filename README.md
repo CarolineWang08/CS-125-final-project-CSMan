@@ -1,7 +1,7 @@
 # CSMan
-CS125 final project.
+CS125 final project
 
-Making a hangman game (simpla word guessing game) with database practice.
+Making an app of a hangman game (simpla word guessing game) with database practice in Android Studio
 
 Following those directions can help you quickly find the main code of the project: CS-125-final-project-CSMan/app/src/main/java/com/example/csman/
 
